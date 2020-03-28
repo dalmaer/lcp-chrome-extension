@@ -13,6 +13,11 @@
     "http://*/*",
     "https://*/*"
   ],
+  "icons": {
+    "16": "icon-16.png",
+    "48": "icon-48.png",
+   "128": "icon-128.png"
+  },
   "browser_action": {
       "name": "Click to toggle the extension on and off",
       "default_icon": "lcp-on.png"
