@@ -28,7 +28,7 @@ This is very alpha! I haven't put the extension in the store yet, so, clone the 
 - [x] The icon is a toggle for the extension (when on, attach the content script, else don't)
 - [x] When you toggle the extension back on, try to load up an old score if one is there
 - [x] When LCP arrives, if it is more than 9999, then set to "BAD"
-- [ ] Create the icons for each size (including 128x)
+- [x] Create the icons for each size (including 128x)
 - [ ] Cool to use tab ID vs. URL?
 - [ ] If you are using multiple windows, when you change the window the icon gets out of sync
 - [ ] Publish the extension!
