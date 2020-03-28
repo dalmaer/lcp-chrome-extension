@@ -1,0 +1,21 @@
+{
+  "name": "LCP",
+  "description": "Show the Largest Contentful Paint score for the given tab",
+  "version": "0.1",
+  "background": {
+     "scripts": ["background.js"],
+     "persistent": false
+   },
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "browser_action": {
+      "name": "Click to toggle the extension on and off",
+      "default_icon": "lcp-on.png"
+  },
+  "manifest_version": 2
+}
