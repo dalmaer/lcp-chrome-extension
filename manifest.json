@@ -19,8 +19,8 @@
    "128": "icon-128.png"
   },
   "browser_action": {
-      "name": "Click to toggle the extension on and off",
-      "default_icon": "lcp-on.png"
+      "default_icon": "lcp-on.png",
+      "default_title": "Click to toggle the extension on and off"
   },
   "manifest_version": 2
 }
