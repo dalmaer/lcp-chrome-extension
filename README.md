@@ -14,9 +14,11 @@ This is very alpha! I haven't put the extension in the store yet, so, clone the 
 - Click on the icon UI to turn the extension on or off (it will show a red square if off, and a green one if there isn't an existing LCP score for on)
 - It stores the LCP for the load in local storage, so when you go back it can show you the score from earlier
 
-## Bugs
+## Bugs / Issues
 
 - It doesn't handle multiple windows well, so the icon UI may be showing the run from the last tab in the window
+- If you don't see results from a page, it may be that the result hasn't come back, or it may be the item below..
+- If you aren't seeing results on an internal site or see an error ```"This page cannot be scripted due to an ExtensionsSettings policy."``` it means that your organization is limiting content scripts (often on internal content). To fix this, you need to add a ```key: $TOKEN_FROM_YOUR_ORGANIZATION``` to the ```manifest.json```
 
 # TODO
 
@@ -29,7 +31,7 @@ This is very alpha! I haven't put the extension in the store yet, so, clone the 
 - [x] When you toggle the extension back on, try to load up an old score if one is there
 - [x] When LCP arrives, if it is more than 9999, then set to "BAD"
 - [x] Create the icons for each size (including 128x)
-- [ ] Cool to use tab ID vs. URL?
+- [ ] We are using tab IDs as the localstorage key (Tab IDs are unique within a browser session.) vs. the tab URL / a hash of the tab URL
 - [ ] If you are using multiple windows, when you change the window the icon gets out of sync
 - [ ] Publish the extension!
 

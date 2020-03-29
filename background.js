@@ -11,7 +11,11 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status == 'complete' && tab.url.startsWith("http") && tab.active) {
       resetIconUI();
   
-      chrome.tabs.executeScript({ file: "content.js" });
+      chrome.tabs.executeScript({ file: "content.js" }, result => {
+        // Catch errors such as "This page cannot be scripted due to an ExtensionsSettings policy."
+        const lastErr = chrome.runtime.lastError;
+        if (lastErr) console.log('Error: ' + lastErr.message);
+      });
     }  
   });
 });
@@ -112,4 +116,3 @@ function resetIconUI() {
   });
   chrome.browserAction.setBadgeText({text: ""});
 }
-
