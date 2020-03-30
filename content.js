@@ -1,10 +1,8 @@
-// console.log("in script.js");
-
 // Create a variable to hold the latest LCP value (since it can change).
 let lcp;
 
 // Create the PerformanceObserver instance.
-const po = new PerformanceObserver((entryList) => {
+const po = new PerformanceObserver(entryList => {
   const entries = entryList.getEntries();
   const lastEntry = entries[entries.length - 1];
 
@@ -15,10 +13,10 @@ const po = new PerformanceObserver((entryList) => {
   lcp = lastEntry.renderTime || lastEntry.loadTime;
 
   // Send the LCP to the background page
-  console.log('LCP:', Math.floor(lcp), 'ms');
+  console.log("LCP:", Math.floor(lcp), "ms");
   chrome.runtime.sendMessage({ result: Math.floor(lcp) });
 });
 
 // Observe entries of type `largest-contentful-paint`, including buffered
 // entries, i.e. entries that occurred before calling `observe()`.
-po.observe({type: 'largest-contentful-paint', buffered: true});
+po.observe({ type: "largest-contentful-paint", buffered: true });
