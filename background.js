@@ -24,14 +24,17 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 chrome.tabs.onActivated.addListener((activeInfo) => {
   resetIconUI();
 
-  tryToUpdateIconUIFromStorage(activeInfo.tabId.toString());
+  tryToUpdateIconUIFromStorage(activeInfo.tabId);
 });
 
 // message from content script, the LCP will be in request.result
 chrome.runtime.onMessage.addListener((request, sender, response) => {
   updateIconUI(request.result);
 
-  chrome.storage.local.set({[sender.tab.id]: request.result});
+  if (sender.tab.url) {
+    let key = hashCode(sender.tab.url);
+    chrome.storage.local.set({[key]: request.result});  
+  }
 });
 
 // Toggle the extension on and off when you tap on the icon
@@ -42,7 +45,7 @@ chrome.browserAction.onClicked.addListener((tab) => {
       chrome.browserAction.setIcon({path: "lcp-on.png"});
       chrome.browserAction.setBadgeText({text: ""});
     
-      tryToUpdateIconUIFromStorage(tab.id.toString());
+      tryToUpdateIconUIFromStorage(tab.id);
     } else { // turn it off
       chrome.storage.local.set({ 'off': true });
       chrome.browserAction.setIcon({path: "lcp-off.png"});
@@ -78,12 +81,6 @@ function getColor(lcp) {
   return color;
 }
 
-// const colorAsHex = {
-//   green: "#6ee67d",
-//   yellow: "#e6aa3c",
-//   red: "#dd1b1b",
-// }
-
 // Given the lcp as a number in milliseconds, update the Icon UI
 function updateIconUI(lcp) {
   let color = getColor(lcp);
@@ -92,18 +89,20 @@ function updateIconUI(lcp) {
 
   chrome.browserAction.setIcon({path: "lcp-" + color + '.png'});  
   chrome.browserAction.setBadgeText({text: lcpBadgeText});
-
-  // Let's stick with black for now
   chrome.browserAction.setBadgeBackgroundColor({color: "#000000"});
-  // chrome.browserAction.setBadgeBackgroundColor({color: colorAsHex[color]});
 }
 
 // load up the most recent result for this tab and update the IconUI
 function tryToUpdateIconUIFromStorage(tabId) {
-  chrome.storage.local.get(tabId, (result) => {
-    if (result[tabId]) {
-      updateIconUI(result[tabId]);
-    }    
+  chrome.tabs.get(tabId, (tab) => {
+    if (tab.url) {
+      let key = hashCode(tab.url);
+      chrome.storage.local.get(key, (result) => {
+        if (result[key]) {
+          updateIconUI(result[key]);
+        }    
+      });  
+    }
   });
 }
 
@@ -115,4 +114,18 @@ function resetIconUI() {
     chrome.browserAction.setIcon({path: "lcp-" + onoff + ".png"});
   });
   chrome.browserAction.setBadgeText({text: ""});
+}
+
+// Hash the URL and return a numeric hash as a String to be used as the key
+function hashCode(str) {
+  let hash = 0;
+  if (str.length == 0) {
+      return "";
+  }
+  for (var i = 0; i < str.length; i++) {
+      var char = str.charCodeAt(i);
+      hash = ((hash<<5)-hash)+char;
+      hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash.toString();
 }
