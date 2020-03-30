@@ -20,21 +20,6 @@ This is very alpha! I haven't put the extension in the store yet, so, clone the 
 - If you don't see results from a page, it may be that the result hasn't come back, or it may be the item below..
 - If you aren't seeing results on an internal site or see an error ```"This page cannot be scripted due to an ExtensionsSettings policy."``` it means that your organization is limiting content scripts (often on internal content). To fix this, you need to add a ```key: $TOKEN_FROM_YOUR_ORGANIZATION``` to the ```manifest.json```
 
-# TODO
-
-- [x] Set the default icon to be the "on" one
-- [x] When LCP arrives, console out the result
-- [x] When LCP arrives, set the badge to the number of seconds
-- [x] When LCP arrives, set the icon that matches the color that maps to the result (green, yellow, red)
-- [x] When LCP arrives, set the badge color that maps to the result (green, yellow, red)
-- [x] The icon is a toggle for the extension (when on, attach the content script, else don't)
-- [x] When you toggle the extension back on, try to load up an old score if one is there
-- [x] When LCP arrives, if it is more than 9999, then set to "BAD"
-- [x] Create the icons for each size (including 128x)
-- [ ] We are using tab IDs as the localstorage key (Tab IDs are unique within a browser session.) vs. the tab URL / a hash of the tab URL
-- [ ] If you are using multiple windows, when you change the window the icon gets out of sync
-- [ ] Publish the extension!
-
 # Metrics
 
 Color  | Description
