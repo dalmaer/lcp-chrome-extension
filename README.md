@@ -4,6 +4,12 @@
 
 This Chrome extension tracks the [LCP (Large Contentful Paint)](https://web.dev/lcp/ "web.dev article on LCP") metric for pages that you visit as you browse the Web.
 
+NOTE: There are other extensions for key metrics such as:
+
+- [FCP (First Contentful Paint)](https://github.com/dalmaer/fcp-chrome-extension)
+- [FID (First Input Delay)](https://github.com/dalmaer/fid-chrome-extension)
+- [CLS (Cumulative Layout Shift)](https://github.com/dalmaer/fid-chrome-extension)
+
 ## Installation
 
 This is very alpha! I haven't put the extension in the store yet, so, clone the repo and then go to chrome://extensions. Once there, click on the "Load unpacked" button and select the directory that you just cloned.
