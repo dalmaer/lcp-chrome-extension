@@ -3,24 +3,18 @@
   "description": "Show the Largest Contentful Paint score for the given tab",
   "version": "0.1",
   "background": {
-     "scripts": ["background.js"],
-     "persistent": false
-   },
-  "permissions": [
-    "storage",
-    "tabs",
-    "activeTab",
-    "http://*/*",
-    "https://*/*"
-  ],
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "permissions": ["storage", "tabs", "activeTab", "http://*/*", "https://*/*"],
   "icons": {
     "16": "icon-16.png",
     "48": "icon-48.png",
-   "128": "icon-128.png"
+    "128": "icon-128.png"
   },
   "browser_action": {
-      "default_icon": "lcp-on.png",
-      "default_title": "Click to toggle the extension on and off"
+    "default_icon": "lcp-on.png",
+    "default_title": "Click to toggle the extension on and off"
   },
   "manifest_version": 2
 }
