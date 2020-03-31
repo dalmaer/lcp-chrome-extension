@@ -54,6 +54,7 @@ CLS: GREEN < 0.1,              YELLOW < 0.25,  RED > 0.25
 
 - Extension is on, but no results for this tab: "LCP" with a [green] square
 - Extension is off, but no results for this tab: "LCP" with a [red] square
+- LCP isn't available (e.g. policy doesn't allow content script injection): "LCP" with a [grey] square
 - LCP is good: Green background with score in badge
 - LCP is adequate: Yellow background with score in badge
 - LCP is poor: Red background with score in badge, or "BAD" if the score is greater than 9999 due to a badge only allowing 4 characters

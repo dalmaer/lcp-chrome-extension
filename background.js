@@ -1,5 +1,7 @@
 "use strict";
 
+const errorCode = -1; // unable to get the value
+
 //
 // Extention Events
 //
@@ -13,12 +15,17 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       tab.url.startsWith("http") &&
       tab.active
     ) {
-      resetIconUI();
-
       chrome.tabs.executeScript({ file: "content.js" }, result => {
         // Catch errors such as "This page cannot be scripted due to an ExtensionsSettings policy."
         const lastErr = chrome.runtime.lastError;
-        if (lastErr) console.log("Error: " + lastErr.message);
+        if (lastErr) {
+          console.log("Error: " + lastErr.message);
+
+          chrome.browserAction.setIcon({ path: "lcp-error.png" });
+          chrome.browserAction.setBadgeText({ text: "" });
+          let key = hashCode(tab.url);
+          chrome.storage.local.set({ [key]: errorCode });
+        }
       });
     }
   });
@@ -26,8 +33,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 // Fires when the active tab in a window changes
 chrome.tabs.onActivated.addListener(activeInfo => {
-  resetIconUI();
-
   tryToUpdateIconUIFromStorage(activeInfo.tabId);
 });
 
@@ -81,8 +86,13 @@ function tryToUpdateIconUIFromStorage(tabId) {
     if (tab.url) {
       let key = hashCode(tab.url);
       chrome.storage.local.get(key, result => {
-        if (result[key]) {
+        if (result[key] == errorCode) {
+          chrome.browserAction.setIcon({ path: "lcp-error.png" });
+          chrome.browserAction.setBadgeText({ text: "" });
+        } else if (result[key]) {
           updateIconUI(result[key]);
+        } else {
+          resetIconUI();
         }
       });
     }
@@ -139,5 +149,3 @@ function hashCode(str) {
   }
   return hash.toString();
 }
-
-
