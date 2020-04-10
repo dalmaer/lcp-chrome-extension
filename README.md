@@ -1,6 +1,6 @@
 # Large Contentful Paint (LCP) Chrome Extension
 
-![An example of a good 1s LCP score (thus green!)](lcp-example-1s.png)
+![An example of a good 1s LCP score (thus green!)](example-1s.png)
 
 This Chrome extension tracks the [LCP (Large Contentful Paint)](https://web.dev/lcp/ "web.dev article on LCP") metric for pages that you visit as you browse the Web.
 
@@ -17,7 +17,7 @@ This is very alpha! I haven't put the extension in the store yet, so, clone the 
 ## Features
 
 - As LCP events are sent to the extension from the [PerformanceObserver](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver) the icon will update by changing color (green for good, yellow for adequate, and red for pood) and showing the number of seconds in the badge. If it takes longer than 9999 seconds, it will just say "BAD" because the badge can only show 4 characters and .... well it _is_ really bad
-- Click on the icon UI to turn the extension on or off (it will show a red square if off, and a green one if there isn't an existing LCP score for on)
+- Click on the icon badge UI to see a scoreboard popup of the pages that have scores, ordered by fastest to slowest (ability to clear the history in this popup too)
 - It stores the LCP for the load in local storage, so when you go back it can show you the score from earlier
 
 ## Bugs / Issues
@@ -52,8 +52,7 @@ CLS: GREEN < 0.1,              YELLOW < 0.25,  RED > 0.25
 
 # States
 
-- Extension is on, but no results for this tab: "LCP" with a [green] square
-- Extension is off, but no results for this tab: "LCP" with a [red] square
+- No results for this tab: "LCP" with a [green] square
 - LCP isn't available (e.g. policy doesn't allow content script injection): "LCP" with a [grey] square
 - LCP is good: Green background with score in badge
 - LCP is adequate: Yellow background with score in badge

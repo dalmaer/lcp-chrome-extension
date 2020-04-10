@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <style type="text/css">
+      .green {
+        background-color: rgb(142, 226, 136);
+      }
+      .yellow {
+        background-color: rgb(221, 171, 82);
+      }
+      .red {
+        background-color: rgb(203, 52, 42);
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+      table th {
+        font-size: 13px;
+        background-color: #f2f2f2;
+        border: 1px solid #999999;
+        padding: 10px;
+      }
+      table tr td {
+        font-size: 12px;
+        margin: 0;
+        border: 1px solid #999999;
+        padding: 10px 30px 10px 30px;
+      }
+
+      .score {
+        text-align: center;
+      }
+    </style>
+
+    <button id="clear" style="float: right;">Clear History</button>
+
+    <h1>LCP Score Board</h1>
+
+    <div id="history"></div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

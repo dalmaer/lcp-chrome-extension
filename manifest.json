@@ -1,7 +1,7 @@
 {
   "name": "LCP",
   "description": "Show the Largest Contentful Paint score for the given tab",
-  "version": "0.1",
+  "version": "0.2",
   "background": {
     "scripts": ["background.js"],
     "persistent": false
@@ -13,8 +13,9 @@
     "128": "icon-128.png"
   },
   "browser_action": {
-    "default_icon": "lcp-on.png",
-    "default_title": "Click to toggle the extension on and off"
+    "default_icon": "icon-on.png",
+    "default_popup": "popup.html",
+    "default_title": "Click to see your browsing history performance"
   },
   "manifest_version": 2
 }
