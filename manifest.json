@@ -15,7 +15,7 @@
   "browser_action": {
     "default_icon": "icon-on.png",
     "default_popup": "popup.html",
-    "default_title": "Click to see your browsing history performance"
+    "default_title": "Click to see the scorecard for LCP from your browsing"
   },
   "manifest_version": 2
 }
