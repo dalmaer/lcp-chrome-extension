@@ -135,17 +135,3 @@ function hashCode(str) {
   }
   return hash.toString();
 }
-
-// Show results from local storage
-function showResults() {
-  chrome.storage.local.get(null, function (items) {
-    for (const result in items) {
-      let item = items[result];
-      console.log(
-        `${badgeTextFromScore(item.score)}s: ${getColor(
-          item.score
-        ).toUpperCase()} ${item.title} ${item.url}`
-      );
-    }
-  });
-}
