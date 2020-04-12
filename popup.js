@@ -18,10 +18,13 @@ chrome.storage.local.get(null, function (items) {
   let sortedByScore = itemsArray.sort((a, b) => (a.score > b.score ? 1 : -1));
 
   for (item of sortedByScore) {
+    let score = badgeTextFromScore(item.score);
+    if (score != "BAD") {
+      score += "s";
+    }
+
     scores += `<div class="item">
-    <div class="score ${getColor(item.score)}">${badgeTextFromScore(
-      item.score
-    )}</div>
+    <div class="score ${getColor(item.score)}">${score}</div>
     <div class="title"><a href="${item.url}" title="${item.url}">${
       item.title
     }</a></div>
