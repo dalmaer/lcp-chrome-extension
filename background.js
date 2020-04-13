@@ -8,7 +8,7 @@ const errorCode = -1; // unable to get the value
 //chrome.runtime.onInstalled.addListener(function() {});
 
 // When a tab is updated check to see if it is loaded and reset the icon UI
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener((_, changeInfo, tab) => {
   if (
     changeInfo.status == "complete" &&
     tab.url.startsWith("http") &&
@@ -39,6 +39,16 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 // Fires when the active tab in a window changes
 chrome.tabs.onActivated.addListener((activeInfo) => {
   tryToUpdateIconUIFromStorage(activeInfo.tabId);
+});
+
+// If another window is focused, switch the badge to those results
+// Ideally you could have different icons/badges per window
+chrome.windows.onFocusChanged.addListener((windowId) => {
+  chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+    if (tabs.length > 0 && tabs[0].id) {
+      tryToUpdateIconUIFromStorage(tabs[0].id);
+    }
+  });
 });
 
 // message from content script, the LCP will be in request.result
