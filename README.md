@@ -22,7 +22,7 @@ This is very alpha! I haven't put the extension in the store yet, so, clone the 
 
 ## Bugs / Issues
 
-- It doesn't handle multiple windows well, so the icon UI may be showing the run from the last tab in the window
+- As the badge / icon can only show one result across all windows, it will be showing the active tab from the _focused_ window
 - If you don't see results from a page, it may be that the result hasn't come back, or it may be the item below..
 - If you aren't seeing results on an internal site or see an error `"This page cannot be scripted due to an ExtensionsSettings policy."` it means that your organization is limiting content scripts (often on internal content). To fix this, you need to add a `key: $TOKEN_FROM_YOUR_ORGANIZATION` to the `manifest.json`
 
