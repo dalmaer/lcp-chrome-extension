@@ -41,7 +41,7 @@ clear.addEventListener("click", () => {
   chrome.storage.local.clear();
 });
 
-// A simple (read: won't work for everything) function to get a domain from a URL
+// A simple function to get a hostname from a URL
 function extractHostname(url) {
   return new URL(url).hostname;
 }
