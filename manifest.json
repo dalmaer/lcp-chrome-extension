@@ -1,7 +1,7 @@
 {
   "name": "LCP",
   "description": "Show the Largest Contentful Paint score for the given tab",
-  "version": "0.2",
+  "version": "0.3",
   "background": {
     "scripts": ["background.js"],
     "persistent": false

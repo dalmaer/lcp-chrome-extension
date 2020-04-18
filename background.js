@@ -8,20 +8,19 @@ const errorCode = -1; // unable to get the value
 //chrome.runtime.onInstalled.addListener(function() {});
 
 // When a tab is updated check to see if it is loaded and reset the icon UI
-chrome.tabs.onUpdated.addListener((_tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (
     changeInfo.status == "complete" &&
     tab.url.startsWith("http") &&
     tab.active
   ) {
-    chrome.tabs.executeScript({ file: "content.js" }, (result) => {
+    chrome.tabs.executeScript({ file: "content.js" }, (_result) => {
       // Catch errors such as "This page cannot be scripted due to an ExtensionsSettings policy."
       const lastErr = chrome.runtime.lastError;
       if (lastErr) {
         console.log("Error: " + lastErr.message);
 
-        chrome.browserAction.setIcon({ path: "icon-error.png" });
-        clearBadge();
+        chrome.browserAction.setIcon({ path: "icon-error.png", tabId: tabId });
 
         let key = hashCode(tab.url);
         chrome.storage.local.set({
@@ -39,16 +38,6 @@ chrome.tabs.onUpdated.addListener((_tabId, changeInfo, tab) => {
 // Fires when the active tab in a window changes
 chrome.tabs.onActivated.addListener((activeInfo) => {
   tryToUpdateIconUIFromStorage(activeInfo.tabId);
-});
-
-// If another window is focused, switch the badge to those results
-// Ideally you could have different icons/badges per window
-chrome.windows.onFocusChanged.addListener((windowId) => {
-  chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-    if (tabs.length > 0 && tabs[0].id > 0) {
-      tryToUpdateIconUIFromStorage(tabs[0].id);
-    }
-  });
 });
 
 // message from content script, the LCP will be in request.result
@@ -72,13 +61,19 @@ chrome.runtime.onMessage.addListener((request, sender, _response) => {
 //
 
 // Given the lcp as a number in milliseconds, update the Icon UI
-function updateIconUI(lcp, tabId) {
-  let color = getColor(lcp);
+function updateIconUI(score, tabId) {
+  let color = getColor(score);
 
-  chrome.browserAction.setIcon({ path: "icon-" + color + ".png" });
-  chrome.browserAction.setBadgeBackgroundColor({ color: "#000000" });
+  chrome.browserAction.setIcon({
+    path: "icon-" + color + ".png",
+    tabId: tabId,
+  });
+  chrome.browserAction.setBadgeBackgroundColor({
+    color: "#000000",
+    tabId: tabId,
+  });
   chrome.browserAction.setBadgeText({
-    text: badgeTextFromScore(lcp),
+    text: badgeTextFromScore(score),
     tabId: tabId,
   });
 }
@@ -90,26 +85,16 @@ function tryToUpdateIconUIFromStorage(tabId) {
       let key = hashCode(tab.url);
       chrome.storage.local.get(key, (result) => {
         if (result[key] && result[key].score == errorCode) {
-          chrome.browserAction.setIcon({ path: "icon-error.png" });
-          clearBadge();
+          chrome.browserAction.setIcon({
+            path: "icon-error.png",
+            tabId: tabId,
+          });
         } else if (result[key] && result[key].score) {
           updateIconUI(result[key].score, tabId);
-        } else {
-          resetIconUI();
         }
       });
     }
   });
-}
-
-// Reset the UI to the base icon
-function resetIconUI() {
-  chrome.browserAction.setIcon({ path: "icon-on.png" });
-  clearBadge();
-}
-
-function clearBadge() {
-  chrome.browserAction.setBadgeText({ text: "" });
 }
 
 //
