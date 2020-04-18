@@ -52,8 +52,8 @@ chrome.windows.onFocusChanged.addListener((windowId) => {
 });
 
 // message from content script, the LCP will be in request.result
-chrome.runtime.onMessage.addListener((request, sender, response) => {
-  updateIconUI(request.result);
+chrome.runtime.onMessage.addListener((request, sender, _response) => {
+  updateIconUI(request.result, sender.tab.id);
 
   if (sender.tab.url) {
     let key = hashCode(sender.tab.url);
@@ -72,12 +72,15 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
 //
 
 // Given the lcp as a number in milliseconds, update the Icon UI
-function updateIconUI(lcp) {
+function updateIconUI(lcp, tabId) {
   let color = getColor(lcp);
 
   chrome.browserAction.setIcon({ path: "icon-" + color + ".png" });
-  chrome.browserAction.setBadgeText({ text: badgeTextFromScore(lcp) });
   chrome.browserAction.setBadgeBackgroundColor({ color: "#000000" });
+  chrome.browserAction.setBadgeText({
+    text: badgeTextFromScore(lcp),
+    tabId: tabId,
+  });
 }
 
 // load up the most recent result for this tab and update the IconUI
@@ -90,7 +93,7 @@ function tryToUpdateIconUIFromStorage(tabId) {
           chrome.browserAction.setIcon({ path: "icon-error.png" });
           clearBadge();
         } else if (result[key] && result[key].score) {
-          updateIconUI(result[key].score);
+          updateIconUI(result[key].score, tabId);
         } else {
           resetIconUI();
         }
